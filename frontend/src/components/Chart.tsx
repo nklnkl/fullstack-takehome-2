@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import { CandlestickData, createChart } from "lightweight-charts";
+import {CandlestickData, createChart} from "lightweight-charts";
 
 // Chart colors based on Figma design. Might move somewhere else later.
 const ChartBackgroundColor = "#161514";
@@ -9,9 +9,10 @@ const ChartGridLinesColor = "#424242";
 
 interface ChartProps {
   data: CandlestickData[];
+  className?: string;
 }
 
-const Chart: React.FC<ChartProps> = ({data}) => {
+const Chart: React.FC<ChartProps> = ({data, className}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const Chart: React.FC<ChartProps> = ({data}) => {
   }, [data]);
 
   return (
-    <div ref={chartContainerRef}/>
+    <div className={className} ref={chartContainerRef}/>
   );
 };
 

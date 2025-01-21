@@ -4,14 +4,14 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import KlineChart from './components/KlineChart';
+import MainView from './views/MainView';
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
   return (
-    <div className="App">
+    <div className="App h-screen bg-vest-background">
       <QueryClientProvider client={queryClient}>
-        <KlineChart symbol1="ETH" symbol2="PERP"/>
+        <MainView/>
       </QueryClientProvider>
     </div>
   );
