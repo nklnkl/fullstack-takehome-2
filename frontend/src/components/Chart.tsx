@@ -1,15 +1,68 @@
-interface ExampleProps {
-  title: string;
-  description?: string; // Optional prop
-  onClick: () => void;
+import { createChart } from 'lightweight-charts';
+import { useEffect, useRef } from 'react';
+
+// Chart colors based on Figma design. Might move somewhere else later.
+const ChartBackgroundColor = "#161514";
+const ChartGreenColor = "#4BC2A3";
+const ChartRedColor = "#E03737";
+const ChartGridLinesColor = "#424242";
+
+interface ChartProps {
+  data: { time: string; open: number; high: number; low: number; close: number }[];
 }
 
-const Chart: React.FC<ExampleProps> = ({ title, description, onClick }) => {
+const Chart: React.FC<ChartProps> = ({ data }) => {
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Handle chart resize, might move somewhere else later.
+    const handleResize = () => {
+      chart?.applyOptions({
+        width: chartContainerRef.current?.clientWidth,
+      });
+    };
+
+    // Chart configuration, appearance, etc.
+    const chart = chartContainerRef.current && createChart(chartContainerRef.current, {
+      layout: {
+        background: {
+          color: ChartBackgroundColor,
+        },
+      },
+      grid: {
+        vertLines: {
+          color: ChartGridLinesColor,
+        },
+        horzLines: {
+          color: ChartGridLinesColor,
+        },
+      },
+      width: chartContainerRef.current.clientWidth,
+      height: 300,
+    });
+    chart?.timeScale().fitContent();
+
+    // Inject data into chart
+    const candlestickSeries = chart?.addCandlestickSeries({
+      upColor: ChartGreenColor,
+      downColor: ChartRedColor,
+    });
+    candlestickSeries?.setData(data);
+
+    // Call resize handler on window resize
+    window.addEventListener('resize', () => handleResize());
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', () => handleResize());
+      chart?.remove();
+    };
+  }, [data]);
+
   return (
-    <div onClick={onClick}>
-      <h1>{title}</h1>
-      {description && <p>{description}</p>}
-    </div>
+    <div
+      ref={chartContainerRef}
+    />
   );
 };
 
