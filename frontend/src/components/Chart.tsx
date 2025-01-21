@@ -1,5 +1,5 @@
-import { createChart } from 'lightweight-charts';
-import { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from "react";
+import { CandlestickData, createChart } from "lightweight-charts";
 
 // Chart colors based on Figma design. Might move somewhere else later.
 const ChartBackgroundColor = "#161514";
@@ -8,10 +8,10 @@ const ChartRedColor = "#E03737";
 const ChartGridLinesColor = "#424242";
 
 interface ChartProps {
-  data: { time: string; open: number; high: number; low: number; close: number }[];
+  data: CandlestickData[];
 }
 
-const Chart: React.FC<ChartProps> = ({ data }) => {
+const Chart: React.FC<ChartProps> = ({data}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,20 +50,18 @@ const Chart: React.FC<ChartProps> = ({ data }) => {
     candlestickSeries?.setData(data);
 
     // Call resize handler on window resize
-    window.addEventListener('resize', () => handleResize());
+    window.addEventListener("resize", () => handleResize());
 
     // Cleanup
     return () => {
-      window.removeEventListener('resize', () => handleResize());
+      window.removeEventListener("resize", () => handleResize());
       chart?.remove();
     };
   }, [data]);
 
   return (
-    <div
-      ref={chartContainerRef}
-    />
+    <div ref={chartContainerRef}/>
   );
 };
 
-export default Chart; 
+export default Chart;
