@@ -2,7 +2,7 @@ import axios, {AxiosRequestConfig} from 'axios';
 
 const API_URL = 'http://localhost:3001';
 
-enum KLineInterval {
+export enum KLineInterval {
   "1m",
   "3m",
   "5m",
@@ -32,12 +32,12 @@ export interface KlineData {
   numOfTrades: number;
 }
 
-export async function fetchKlineData(symbol1?: string, symbol2?: string, interval?: KLineInterval): Promise<KlineData[]> {
+export async function fetchKlineData(symbol: string, interval?: string): Promise<KlineData[]> {
   const requestConfig: AxiosRequestConfig = {
     params: {}
   };
-  if (symbol1 && symbol2) {
-    requestConfig.params["symbol"] = `${symbol1}-${symbol2}`;
+  if (symbol) {
+    requestConfig.params["symbol"] = symbol;
   }
   if (interval) {
     requestConfig.params["interval"] = interval.toString();
