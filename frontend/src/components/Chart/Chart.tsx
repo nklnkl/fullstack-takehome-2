@@ -10,7 +10,9 @@ import {
   ChartContainerClassName,
   ChartMenuClassName,
   ChartClassName,
-  ChartLoadingClassName
+  ChartLoadingClassName,
+  ChartWrapperClassName,
+  ChartButtonClassName
 } from "./style";
 
 interface ChartProps {
@@ -21,6 +23,10 @@ interface ChartProps {
   onIntervalChange: (interval: string) => void;
   onSymbolChange: (symbol: string) => void;
   isLoading?: boolean;
+  latestCandlestickData?: CandlestickData | null;
+  live: boolean;
+  toggleLive: (live: boolean) => void;
+  liveButtonDisabled: boolean;
 }
 
 const Chart: React.FC<ChartProps> = ({
@@ -30,10 +36,14 @@ const Chart: React.FC<ChartProps> = ({
   symbolOptions,
   onIntervalChange,
   onSymbolChange,
-  isLoading
+  isLoading,
+  latestCandlestickData,
+  live,
+  toggleLive,
+  liveButtonDisabled,
 }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
-
+  let candlestickSeries: any | null = null;
   useEffect(() => {
     // Handle chart resize, might move somewhere else later.
     const handleResize = () => {
@@ -60,14 +70,15 @@ const Chart: React.FC<ChartProps> = ({
       },
       height: chartContainerRef.current?.clientHeight,
     });
-    chart?.timeScale().fitContent();
 
     // Inject data into chart
-    const candlestickSeries = chart?.addCandlestickSeries({
+    candlestickSeries = chart?.addCandlestickSeries({
       upColor: ChartGreenColor,
       downColor: ChartRedColor,
     });
     candlestickSeries?.setData(data);
+
+    chart?.timeScale().fitContent();
 
     // Call resize handler on window resize
     window.addEventListener("resize", () => handleResize());
@@ -78,6 +89,12 @@ const Chart: React.FC<ChartProps> = ({
       chart?.remove();
     };
   }, [data]);
+
+  useEffect(() => {
+    if (latestCandlestickData) {
+      candlestickSeries?.update(latestCandlestickData);
+    }
+  }, [latestCandlestickData]);
 
   return (
     <div className={ChartContainerClassName}>
@@ -92,10 +109,18 @@ const Chart: React.FC<ChartProps> = ({
           onChange={onIntervalChange}
           placeholder="1m"
         />
+        <button disabled={liveButtonDisabled} className={ChartButtonClassName(live)} onClick={() => toggleLive(!live)}>
+          {live ? "Stop" : "Start"}
+        </button>
       </div>
-      {isLoading ? <div className={ChartLoadingClassName}>
-        <ClipLoader color="#FFFFFF" size={50}/>
-      </div> : <div className={`${ChartClassName} ${className}`} ref={chartContainerRef}/>}
+      <div className={ChartWrapperClassName}>
+        <div className={`${ChartClassName} ${className}`} ref={chartContainerRef}/>
+        {isLoading && (
+          <div className={ChartLoadingClassName}>
+            <ClipLoader color="#FFFFFF" size={50}/>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

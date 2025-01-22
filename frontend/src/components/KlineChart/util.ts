@@ -21,14 +21,19 @@ export enum KLineInterval {
 }
 
 // Convert Vest KlineData Data to TradingView Candlestick Data
-export const convertKlineDataToChartData = (data: KlineData[]): CandlestickData[] => {
-  return data ? data.map(item => ({
-    time: item.openTime / 1000 as Time,
-    open: Number(item.openPrice),
-    high: Number(item.highPrice),
-    low: Number(item.lowPrice),
-    close: Number(item.closePrice)
-  })) : [];
+export const convertKlineDataToChartData = (data: KlineData): CandlestickData => {
+  return {
+    time: data.openTime / 1000 as Time,
+    open: Number(data.openPrice),
+    high: Number(data.highPrice),
+    low: Number(data.lowPrice),
+    close: Number(data.closePrice)
+  }
+}
+
+// Convert Vest KlineData Data Array to TradingView Candlestick Data Array
+export const convertKlineDataArrayToChartDataArray = (data: KlineData[]): CandlestickData[] => {
+  return data ? data.map(item => convertKlineDataToChartData(item)) : [];
 }
 
 // Get interval options for the chart dropdown

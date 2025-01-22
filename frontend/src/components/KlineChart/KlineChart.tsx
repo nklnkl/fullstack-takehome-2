@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {KlineData, fetchKlineData } from "../../services/kline";
+import {KlineData, fetchKlineData} from "../../services/kline";
 import {ExchangeInfoResponse, fetchExchangeInfo} from "../../services/exchangeInfo";
 import Chart from "../Chart";
 import {
@@ -10,15 +10,23 @@ import {
 } from "./style";
 import {
   convertKlineDataToChartData,
+  convertKlineDataArrayToChartDataArray,
   getIntervalOptions,
   getSymbolOptions,
 } from "./util";
+import {useKlineWs} from "../../services/klinews";
 
-interface KlineChartProps {}
+interface KlineChartProps {
+}
 
 const KlineChart: React.FC<KlineChartProps> = () => {
+  // Keep track of the live status
+  const [live, setLive] = useState(false);
+  // Keep track of the symbol
   const [symbol, setSymbol] = useState<string>("ETH-PERP");
+  // Keep track of the interval
   const [interval, setInterval] = useState<string>("1m");
+  const {active, latestKlineData, connecting} = useKlineWs(symbol, interval, live);
 
   // REST - Kline Data
   const {
@@ -43,7 +51,14 @@ const KlineChart: React.FC<KlineChartProps> = () => {
   // Refetch Kline Data when symbol or interval changes
   useEffect(() => {
     refetchKlineData();
-  }, [symbol, interval]);
+  }, [symbol, interval, live]);
+
+  // If live is true, but the websocket is not active, set live to false (probably a connection issue)
+  useEffect(() => {
+    if (live && !active) {
+      setLive(false);
+    }
+  }, [active]);
 
   // TODO: make a better loading state and error state
   return <div className={KlineChartClassName}>
@@ -56,12 +71,16 @@ const KlineChart: React.FC<KlineChartProps> = () => {
 
         <Chart
           className={ChartClassName}
-          data={convertKlineDataToChartData(klineData ?? [])}
+          data={convertKlineDataArrayToChartDataArray(klineData ?? [])}
           intervalOptions={getIntervalOptions()}
           symbolOptions={getSymbolOptions(dataExchangeInfo)}
           onIntervalChange={setInterval}
           onSymbolChange={setSymbol}
           isLoading={isLoadingKLineData || isRefetchingKLineData}
+          latestCandlestickData={latestKlineData ? convertKlineDataToChartData(latestKlineData) : null}
+          live={live}
+          toggleLive={setLive}
+          liveButtonDisabled={connecting}
         />
     }
 

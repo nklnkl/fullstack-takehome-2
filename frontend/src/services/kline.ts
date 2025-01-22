@@ -1,5 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
-import { vestApiRootUrl } from './api';
+import {vestApiRootUrl} from './api';
+import {mapKlineData} from './util';
 
 const API_URL = 'http://localhost:3001';
 
@@ -26,15 +27,6 @@ export const fetchKlineData = async (symbol: string, interval?: string): Promise
     requestConfig.params["interval"] = interval.toString();
   }
   const response = await axios.get(`${vestApiRootUrl}/klines`, requestConfig);
-  return response.data.map((kline: Array<any>) => ({
-    openTime: kline[0],
-    openPrice: kline[1],
-    highPrice: kline[2],
-    lowPrice: kline[3],
-    closePrice: kline[4],
-    closeTime: kline[5],
-    v: kline[6],
-    quoteV: kline[7],
-    numOfTrades: kline[8],
-  }));
+  return response.data.map((kline: Array<any>) => mapKlineData(kline));
 }
+
