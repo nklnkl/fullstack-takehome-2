@@ -1,12 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {CandlestickData, Time} from "lightweight-charts";
 import {useQuery} from "@tanstack/react-query";
-import {KlineData, fetchKlineData, KLineInterval} from "../services/kline";
-import Chart from "./Chart";
-import {ExchangeInfoResponse, fetchExchangeInfo} from "../services/exchangeInfo";
+import {KlineData, fetchKlineData } from "../../services/kline";
+import {ExchangeInfoResponse, fetchExchangeInfo} from "../../services/exchangeInfo";
+import Chart from "../Chart";
+import {
+  KlineChartClassName,
+  ChartClassName,
+  FormClassName,
+} from "./style";
+import {
+  convertKlineDataToChartData,
+  getIntervalOptions,
+  getSymbolOptions,
+} from "./util";
 
-interface KlineChartProps {
-}
+interface KlineChartProps {}
 
 const KlineChart: React.FC<KlineChartProps> = () => {
   const [symbol, setSymbol] = useState<string>("ETH-PERP");
@@ -63,33 +71,6 @@ const KlineChart: React.FC<KlineChartProps> = () => {
 
   </div>
 };
-
-const KlineChartClassName = "flex flex-row";
-const ChartClassName = "flex-1";
-const FormClassName = "flex-none w-80";
-
-// Convert Vest KlineData Data to TradingView Candlestick Data
-function convertKlineDataToChartData(data: KlineData[]): CandlestickData[] {
-  return data ? data.map(item => ({
-    time: item.openTime / 1000 as Time,
-    open: Number(item.openPrice),
-    high: Number(item.highPrice),
-    low: Number(item.lowPrice),
-    close: Number(item.closePrice)
-  })) : [];
-}
-
-// Get interval options for the chart dropdown
-function getIntervalOptions() {
-  return Object.values(KLineInterval)
-    .filter(value => typeof value === 'string')
-    .map((klineInterval) => ({value: klineInterval.toString(), label: klineInterval.toString()}));
-}
-
-function getSymbolOptions(dataExchangeInfo: ExchangeInfoResponse | undefined): { value: string, label: string }[] {
-  if (!dataExchangeInfo) return [];
-  return dataExchangeInfo.symbols.map(item => ({value: item.symbol, label: item.displayName}));
-}
 
 export default KlineChart;
 

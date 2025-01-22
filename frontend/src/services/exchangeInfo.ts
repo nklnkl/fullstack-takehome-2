@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { vestApiRootUrl } from './api';
 export interface ExchangeInfoResponse {
   exchange: ExchangeInfo;
   symbols: SymbolInfo[];
@@ -23,7 +23,7 @@ export interface SymbolInfo {
   takerFee: string;
 }
 
-export async function fetchExchangeInfo(): Promise<ExchangeInfoResponse> {
-  const response = await axios.get(`https://serverprod.vest.exchange/v2/exchangeInfo`);
+export const fetchExchangeInfo = async (): Promise<ExchangeInfoResponse> => {
+  const response = await axios.get(`${vestApiRootUrl}/exchangeInfo`);
   return response.data;
 }

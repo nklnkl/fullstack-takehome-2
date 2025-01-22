@@ -1,9 +1,10 @@
 import React from "react";
 import {CiSearch} from "react-icons/ci";
-
-const SearchBarClassName = "flex flex-row items-center bg-vest-border rounded space-x-2";
-const SearchBarIconClassName = "text-vest-grey w-6 h-6";
-const SearchBarInputClassName = "flex-1 bg-transparent outline-none px-2 text-white text-sm";
+import {
+  SearchBarClassName,
+  SearchBarIconClassName,
+  SearchBarInputClassName,
+} from "./style";
 
 interface SearchBarProps {
   className?: string;

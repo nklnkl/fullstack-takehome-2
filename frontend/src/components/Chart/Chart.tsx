@@ -1,7 +1,17 @@
 import React, {useEffect, useRef} from "react";
 import {CandlestickData, createChart} from "lightweight-charts";
-import ChartDropdown from "./ChartDropdown";
 import {ClipLoader} from "react-spinners";
+import ChartDropdown from "../ChartDropdown";
+import {
+  ChartBackgroundColor,
+  ChartGridLinesColor,
+  ChartGreenColor,
+  ChartRedColor,
+  ChartContainerClassName,
+  ChartMenuClassName,
+  ChartClassName,
+  ChartLoadingClassName
+} from "./style";
 
 interface ChartProps {
   data: CandlestickData[];
@@ -90,14 +100,4 @@ const Chart: React.FC<ChartProps> = ({
   );
 };
 
-// Chart colors based on Figma design. Might move somewhere else later.
-const ChartBackgroundColor = "#161514";
-const ChartGreenColor = "#4BC2A3";
-const ChartRedColor = "#E03737";
-const ChartGridLinesColor = "#424242";
-
-const ChartContainerClassName = "w-full p-6 bg-vest-secondary-background";
-const ChartMenuClassName = "flex flex-row items-start space-x-4 mb-4";
-const ChartClassName = "h-96 max-h-full max-h-[439px]";
-const ChartLoadingClassName = "flex-1 h-96 pt-10 bg-vest-secondary-background text-white";
 export default Chart;

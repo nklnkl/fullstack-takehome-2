@@ -1,24 +1,7 @@
 import axios, {AxiosRequestConfig} from 'axios';
+import { vestApiRootUrl } from './api';
 
 const API_URL = 'http://localhost:3001';
-
-export enum KLineInterval {
-  "1m",
-  "3m",
-  "5m",
-  "15m",
-  "30m",
-  "1h",
-  "2h",
-  "4h",
-  "6h",
-  "8h",
-  "12h",
-  "1d",
-  "3d",
-  "1w",
-  "1M",
-}
 
 export interface KlineData {
   openTime: number;
@@ -32,7 +15,7 @@ export interface KlineData {
   numOfTrades: number;
 }
 
-export async function fetchKlineData(symbol: string, interval?: string): Promise<KlineData[]> {
+export const fetchKlineData = async (symbol: string, interval?: string): Promise<KlineData[]> => {
   const requestConfig: AxiosRequestConfig = {
     params: {}
   };
@@ -42,7 +25,7 @@ export async function fetchKlineData(symbol: string, interval?: string): Promise
   if (interval) {
     requestConfig.params["interval"] = interval.toString();
   }
-  const response = await axios.get(`https://serverprod.vest.exchange/v2/klines`, requestConfig);
+  const response = await axios.get(`${vestApiRootUrl}/klines`, requestConfig);
   return response.data.map((kline: Array<any>) => ({
     openTime: kline[0],
     openPrice: kline[1],
