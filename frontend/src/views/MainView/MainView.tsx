@@ -8,13 +8,17 @@ import {
   SearchBarClassName,
   AddressNotificationsClassName
 } from "./style";
+import NotificationMenu from "../../components/NotificationMenu";
 
 const MainView: React.FC = () => {
   return <div className={MainViewClassName}>
 
     <div className={HeaderClassName}>
       <SearchBar className={SearchBarClassName}/>
-      <div className={AddressNotificationsClassName}>Address Notifications</div>
+      <NotificationMenu
+        className={AddressNotificationsClassName}
+        address="0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe"
+      />
     </div>
 
     <Headline

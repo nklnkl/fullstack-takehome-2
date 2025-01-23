@@ -1,0 +1,1 @@
+export const NotificationMenuClassName = "flex flex-row gap-2 px-2 text-white items-center"
