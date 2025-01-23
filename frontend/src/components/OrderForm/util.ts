@@ -39,16 +39,7 @@ export const resolver: Resolver<OrderFormValues> = async (values) => {
 };
 
 export const onSubmitSuccess = (data: OrderFormValues, setShowConfetti: (show: boolean) => void) => {
-    console.log(data);
     setShowConfetti(true);
-};
-
-export const onConfettiComplete = (
-    setShowConfetti: (show: boolean) => void,
-    setShowSuccessButton: (show: boolean) => void
-) => {
-    setShowConfetti(false);
-    setShowSuccessButton(false);
 };
 
 export const calculateLiquidationFee = (size: number, price: number) => {

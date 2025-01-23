@@ -117,6 +117,7 @@ const LongOrderForm: React.FC<LongOrderFormProps> = ({
           duration={3000}
           particleCount={500}
           zIndex={1000}
+          onComplete={() => setShowSuccess(false)}
         />
       </div>
     }
