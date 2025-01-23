@@ -48,3 +48,14 @@ export const getSymbolOptions = (dataExchangeInfo: ExchangeInfoResponse | undefi
   if (!dataExchangeInfo) return [];
   return dataExchangeInfo.symbols.map(item => ({value: item.symbol, label: item.displayName}));
 }
+
+// Get current price from the latest kline data
+export const getLatestPrice = (data: KlineData[], socketData: KlineData | null): number => {
+  if (socketData) {
+    return Number(socketData.openPrice);
+  }
+  if (data.length > 0) {
+    return Number(data[data.length - 1].openPrice);
+  }
+  return 0;
+}

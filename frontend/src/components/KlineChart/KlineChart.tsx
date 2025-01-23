@@ -13,6 +13,7 @@ import {
   convertKlineDataArrayToChartDataArray,
   getIntervalOptions,
   getSymbolOptions,
+  getLatestPrice,
 } from "./util";
 import {useKlineWs} from "../../services/klinews";
 import OrderForm from "../OrderForm";
@@ -28,7 +29,7 @@ const KlineChart: React.FC<KlineChartProps> = () => {
   // Keep track of the interval
   const [interval, setInterval] = useState<string>("1m");
   const {active, latestKlineData, connecting} = useKlineWs(symbol, interval, live);
-
+  const [currentPrice, setCurrentPrice] = useState<number>(0);
   // REST - Kline Data
   const {
     isLoading: isLoadingKLineData,
@@ -61,6 +62,14 @@ const KlineChart: React.FC<KlineChartProps> = () => {
     }
   }, [active]);
 
+  useEffect(() => {
+    if (live) {
+      setCurrentPrice(getLatestPrice(klineData ?? [], latestKlineData));
+    } else {
+      setCurrentPrice(getLatestPrice(klineData ?? [], null));
+    }
+  }, [klineData, latestKlineData]);
+
   // TODO: make a better loading state and error state
   return <div className={KlineChartClassName}>
 
@@ -86,7 +95,7 @@ const KlineChart: React.FC<KlineChartProps> = () => {
     }
 
     <div className={FormWrapperClassName}>
-      <OrderForm />
+      <OrderForm currentPrice={currentPrice} />
     </div>
 
   </div>

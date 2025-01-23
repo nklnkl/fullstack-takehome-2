@@ -3,12 +3,12 @@ import {FormSlider, LongOrderFormClassName} from "./style";
 import ChartDropdown from "../ChartDropdown/ChartDropdown";
 import {LeverageOptions, OrderTypeOptions} from "./util";
 
-interface LongOrderFormProps {
+interface ShortOrderFormProps {
   className?: string;
   currentPrice: number;
 }
 
-const LongOrderForm: React.FC<LongOrderFormProps> = ({className, currentPrice}) => {
+const ShortOrderForm: React.FC<ShortOrderFormProps> = ({className, currentPrice}) => {
   const [orderType, setOrderType] = useState<string>("market");
   const [leverage, setLeverage] = useState<number>(2);
 
@@ -72,8 +72,8 @@ const LongOrderForm: React.FC<LongOrderFormProps> = ({className, currentPrice}) 
       <button>v</button>
     </div>
 
-    <button className="bg-vest-green text-vest-background py-3 rounded">BUY / LONG</button>
+    <button className="bg-vest-red text-vest-background py-3 rounded">SELL / SHORT</button>
   </div>;
 };
 
-export default LongOrderForm;
+export default ShortOrderForm;

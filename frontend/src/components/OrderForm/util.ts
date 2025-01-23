@@ -1,6 +1,6 @@
 export const OrderTypeOptions = [
-    { value: "market", label: "Market" },
-    { value: "limit", label: "Limit" },
+    { value: "market", label: "MARKET" },
+    { value: "limit", label: "LIMIT" },
 ];
 
 export const LeverageOptions = [
