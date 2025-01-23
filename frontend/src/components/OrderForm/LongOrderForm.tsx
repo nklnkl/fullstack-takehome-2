@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
-import { PiCaretDownLight } from "react-icons/pi";
+import { PiCaretDownLight, PiCaretUpLight } from "react-icons/pi";
 import {ConfettiExplosionColors, FormSlider, LongOrderFormClassName} from "./style";
 import ChartDropdown from "../ChartDropdown/ChartDropdown";
 import {calculateLiquidationFee, calculateOrderFee, LeverageOptions, onSubmitSuccess, OrderTypeOptions} from "./util";
@@ -92,14 +92,16 @@ const LongOrderForm: React.FC<LongOrderFormProps> = ({
 
     <div className="flex flex-row justify-between">
       <label>Advanced</label>
-      <PiCaretDownLight className="text-white" onClick={() => setShowAdvanced(!showAdvanced)}/>
+      {showAdvanced ?
+        <PiCaretUpLight className="text-white" onClick={() => setShowAdvanced(!showAdvanced)}/> :
+        <PiCaretDownLight className="text-white" onClick={() => setShowAdvanced(!showAdvanced)}/>
+      }
     </div>
 
     {showAdvanced && (
       <div className="flex flex-col gap-1">
         <div className="flex flex-row justify-between">
-          <label>Advanced</label>
-          <PiCaretDownLight className="text-white" onClick={() => setShowAdvanced(!showAdvanced)}/>
+          <label>Nothing too advanced for now, check back later!</label>
         </div>
       </div>
     )}
