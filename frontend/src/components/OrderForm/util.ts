@@ -1,3 +1,5 @@
+import { Resolver } from "react-hook-form";
+
 export const OrderTypeOptions = [
     { value: "market", label: "MARKET" },
     { value: "limit", label: "LIMIT" },
@@ -12,3 +14,47 @@ export const LeverageOptions = [
     { value: 5, label: "100x" },
     { value: 6, label: "128x" },
 ];
+
+export type OrderFormValues = {
+    orderType: string;
+    size: number;
+    leverage: number;
+};
+
+export const defaultValues: OrderFormValues = {
+    orderType: OrderTypeOptions[0].value,
+    size: 1,
+    leverage: LeverageOptions[0].value,
+};
+
+export const resolver: Resolver<OrderFormValues> = async (values) => {
+    return {
+        values: {
+            orderType: values.orderType || OrderTypeOptions[0].value,
+            size: values.size || 1,
+            leverage: values.leverage || LeverageOptions[0].value,
+        },
+        errors: {},
+    };
+};
+
+export const onSubmitSuccess = (data: OrderFormValues, setShowConfetti: (show: boolean) => void) => {
+    console.log(data);
+    setShowConfetti(true);
+};
+
+export const onConfettiComplete = (
+    setShowConfetti: (show: boolean) => void,
+    setShowSuccessButton: (show: boolean) => void
+) => {
+    setShowConfetti(false);
+    setShowSuccessButton(false);
+};
+
+export const calculateLiquidationFee = (size: number, price: number) => {
+    return size * price * 0.00001;
+}
+
+export const calculateOrderFee = (size: number, price: number) => {
+    return size * price * 0.000005;
+}

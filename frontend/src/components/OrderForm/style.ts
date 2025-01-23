@@ -1,6 +1,8 @@
 import { Slider } from "@mui/material";
 import styled from "@mui/material/styles/styled";
 
+export const ConfettiExplosionColors = ["#4BC2A3"];
+
 export const OrderFormClassName = "flex flex-col py-1 px-4 bg-vest-secondary-background text-sm text-vest-normal-text";
 export const LongOrderFormClassName = "flex flex-col gap-3 py-2";
 

@@ -14,6 +14,7 @@ import {
   getIntervalOptions,
   getSymbolOptions,
   getLatestPrice,
+  getFirstHalfSymbol,
 } from "./util";
 import {useKlineWs} from "../../services/klinews";
 import OrderForm from "../OrderForm";
@@ -28,8 +29,13 @@ const KlineChart: React.FC<KlineChartProps> = () => {
   const [symbol, setSymbol] = useState<string>("ETH-PERP");
   // Keep track of the interval
   const [interval, setInterval] = useState<string>("1m");
+  // Keep track of the currency
+  const [currency, setCurrency] = useState<string>("USDC");
+  // Keep track of the live status
   const {active, latestKlineData, connecting} = useKlineWs(symbol, interval, live);
+  // Keep track of the current price
   const [currentPrice, setCurrentPrice] = useState<number>(0);
+
   // REST - Kline Data
   const {
     isLoading: isLoadingKLineData,
@@ -95,7 +101,7 @@ const KlineChart: React.FC<KlineChartProps> = () => {
     }
 
     <div className={FormWrapperClassName}>
-      <OrderForm currentPrice={currentPrice} />
+      <OrderForm currentPrice={currentPrice} currency={getFirstHalfSymbol(symbol)} />
     </div>
 
   </div>

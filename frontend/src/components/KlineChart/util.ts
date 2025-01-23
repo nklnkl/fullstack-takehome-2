@@ -59,3 +59,8 @@ export const getLatestPrice = (data: KlineData[], socketData: KlineData | null):
   }
   return 0;
 }
+
+// Get only first half of a symbol, e.g. "ETH-PERP" -> "ETH"
+export const getFirstHalfSymbol = (symbol: string) => {
+  return symbol.split("-")[0];
+};
