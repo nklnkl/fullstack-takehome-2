@@ -40,6 +40,7 @@ export const resolver: Resolver<OrderFormValues> = async (values) => {
 
 export const onSubmitSuccess = (data: OrderFormValues, setShowConfetti: (show: boolean) => void) => {
     setShowConfetti(true);
+    playSuccessSound();
 };
 
 export const calculateLiquidationFee = (size: number, price: number) => {
@@ -48,4 +49,9 @@ export const calculateLiquidationFee = (size: number, price: number) => {
 
 export const calculateOrderFee = (size: number, price: number) => {
     return size * price * 0.000005;
+}
+
+export const playSuccessSound = () => {
+    const audio = new Audio("/success.mp3");
+    audio.play();
 }
