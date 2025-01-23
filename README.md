@@ -1,3 +1,11 @@
+# READ PLEASE - UPDATE FROM ASSIGNEE
+
+## Installation and Deployment
+
+1. Have a working version of Docker installed and running.
+2. Run `docker compose up` at project root.
+3. That's it. Check at `localhost:3000`.
+
 # Vest Fullstack Take Home Assignment
 
 Vest Labs is a quantitative crypto research firm building a Vest Exchange - a highly capital efficient perpetual futures exchange that uses zero-knowledge proofs to ensure the fairest pricing for traders and liquidity providers.
