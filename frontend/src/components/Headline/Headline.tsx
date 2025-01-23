@@ -15,7 +15,12 @@ interface HeadlineProps {
 
 const Headline: React.FC<HeadlineProps> = (props) => {
   return <div className={`${HeadlineClassName} ${props.className}`}>
-    <HeadlineItem label="BTC / Bitcoin" value="something"/>
+
+    <div className="flex-1 flex flex-row items-center gap-2 font-bold">
+      <img src="btc-logo.png" alt="BTC Logo" className="w-6 h-6"/>
+      <div className="text-white text-sm">BTC / BITCOIN</div>
+    </div>
+
     <HeadlineItem label="Price" value={props.price}/>
     <HeadlineItem label="24H Change" value={props.twentyFourHourChange}/>
     <HeadlineItem label="1H Funding" value={props.oneHourFunding}/>
