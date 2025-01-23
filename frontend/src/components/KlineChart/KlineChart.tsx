@@ -6,7 +6,7 @@ import Chart from "../Chart";
 import {
   KlineChartClassName,
   ChartClassName,
-  FormClassName,
+  FormWrapperClassName,
 } from "./style";
 import {
   convertKlineDataToChartData,
@@ -15,6 +15,7 @@ import {
   getSymbolOptions,
 } from "./util";
 import {useKlineWs} from "../../services/klinews";
+import OrderForm from "../OrderForm";
 
 interface KlineChartProps {
 }
@@ -84,8 +85,8 @@ const KlineChart: React.FC<KlineChartProps> = () => {
         />
     }
 
-    <div className={FormClassName}>
-      form placeholder
+    <div className={FormWrapperClassName}>
+      <OrderForm />
     </div>
 
   </div>

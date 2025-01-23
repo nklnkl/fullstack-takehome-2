@@ -10,6 +10,8 @@ module.exports = {
         "vest-background": "#0F0E0C",
         "vest-secondary-background": "#161514",
         "vest-border": "#1A1A1A",
+        "vest-normal-text": "#AEADAD",
+        "vest-highlight-text": "#F2F1F0",
       },
     },
   },
